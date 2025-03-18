@@ -27,26 +27,16 @@
             height: 100%;
             object-fit: cover;
             z-index: -2;
+            display: none;
         }
 
-        canvas, .fog {
+        canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-        }
-
-        .fog {
-            background: radial-gradient(circle, rgba(0, 0, 255, 0.2) 10%, rgba(0, 0, 0, 0.9) 90%);
-            animation: fogAnimation 10s infinite alternate;
-            filter: blur(20px);
-        }
-
-        @keyframes fogAnimation {
-            0% { transform: scale(1.1) translateY(-10px); }
-            100% { transform: scale(1) translateY(10px); }
         }
 
         .invitation-container {
@@ -61,23 +51,35 @@
             transform: perspective(1000px) rotateX(8deg);
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             z-index: 10;
+            display: none;
         }
 
-        .invitation-container:hover, .invitation-container:active {
-            transform: perspective(1000px) rotateX(0deg);
-            box-shadow: 0 10px 40px rgba(0, 0, 255, 0.6);
+        .loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 24px;
+            z-index: 20;
         }
     </style>
 </head>
 <body>
-    <video autoplay loop muted>
+    <div class="loading-screen" id="loadingScreen">Loading...</div>
+
+    <video id="bgVideo" autoplay loop muted>
         <source src="https://vampzie.github.io/FAREWELL-2025/fog.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <div class="fog"></div>
     <canvas id="starCanvas"></canvas>
 
-    <div class="invitation-container">
+    <div class="invitation-container" id="invitationContainer">
         <h2 style="color: #0000ff;">Farewell Invitation</h2>
         <p>We invite you to join us in celebrating the farewell of our beloved seniors!</p>
         <p><strong>Date:</strong> 19 APRIL 2025 </p>
@@ -88,6 +90,16 @@
     </div>
 
     <script>
+        const video = document.getElementById('bgVideo');
+        const loadingScreen = document.getElementById('loadingScreen');
+        const invitationContainer = document.getElementById('invitationContainer');
+
+        video.oncanplaythrough = function() {
+            loadingScreen.style.display = 'none';
+            video.style.display = 'block';
+            invitationContainer.style.display = 'block';
+        };
+
         const canvas = document.getElementById('starCanvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -124,8 +136,8 @@
             }
 
             draw() {
-                ctx.fillStyle = rgba(173, 216, 230, ${this.opacity});
-                ctx.font = ${this.size * 2}px Arial;
+                ctx.fillStyle = `rgba(173, 216, 230, ${this.opacity})`;
+                ctx.font = `${this.size * 2}px Arial`;
                 ctx.fillText('★', this.x, this.y);
             }
         }
@@ -144,8 +156,8 @@
             }
             for (let i = 0; i < mouseTrail.length; i++) {
                 let trail = mouseTrail[i];
-                ctx.fillStyle = rgba(173, 216, 230, ${trail.opacity});
-                ctx.font = 16px Arial;
+                ctx.fillStyle = `rgba(173, 216, 230, ${trail.opacity})`;
+                ctx.font = `16px Arial`;
                 ctx.fillText('★', trail.x, trail.y);
                 trail.opacity -= 0.05;
                 if (trail.opacity <= 0) {
