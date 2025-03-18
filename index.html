@@ -19,6 +19,16 @@
             text-align: center;
         }
 
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
         canvas, .fog, .smoke {
             position: absolute;
             top: 0;
@@ -40,7 +50,7 @@
         }
 
         .smoke {
-            background: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fclouds-effect&psig=AOvVaw1lImgIURPZYqKPMJtiCSVX&ust=1742394006474000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOCuy9Dpk4wDFQAAAAAdAAAAABAT');
+            background: url('https://i.imgur.com/0l5Ykdy.png');
             background-size: cover;
             opacity: 0.2;
             animation: smokeAnimation 20s infinite linear;
@@ -72,6 +82,10 @@
     </style>
 </head>
 <body>
+    <video autoplay loop muted>
+        <source src="https://vampzie.github.io/FAREWELL-2025/fog.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
     <div class="fog"></div>
     <div class="smoke"></div>
     <canvas id="starCanvas"></canvas>
@@ -157,15 +171,6 @@
 
         createStars();
         animateStars();
-
-        document.addEventListener('mousemove', (e) => {
-            mouseTrail.push({ x: e.clientX, y: e.clientY, opacity: 1 });
-        });
-
-        document.addEventListener('touchmove', (e) => {
-            let touch = e.touches[0];
-            mouseTrail.push({ x: touch.clientX, y: touch.clientY, opacity: 1 });
-        });
     </script>
 </body>
 </html>
