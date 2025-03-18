@@ -19,7 +19,7 @@
             text-align: center;
         }
 
-        canvas, .fog {
+        canvas, .fog, .smoke {
             position: absolute;
             top: 0;
             left: 0;
@@ -29,7 +29,7 @@
         }
 
         .fog {
-            background: radial-gradient(circle, rgba(255, 0, 0, 0.2) 10%, rgba(0, 0, 0, 0.9) 90%);
+            background: radial-gradient(circle, rgba(0, 0, 255, 0.2) 10%, rgba(0, 0, 0, 0.9) 90%);
             animation: fogAnimation 10s infinite alternate;
             filter: blur(20px);
         }
@@ -39,15 +39,27 @@
             100% { transform: scale(1) translateY(10px); }
         }
 
+        .smoke {
+            background: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fclouds-effect&psig=AOvVaw1lImgIURPZYqKPMJtiCSVX&ust=1742394006474000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOCuy9Dpk4wDFQAAAAAdAAAAABAT');
+            background-size: cover;
+            opacity: 0.2;
+            animation: smokeAnimation 20s infinite linear;
+        }
+
+        @keyframes smokeAnimation {
+            from { transform: translateX(-10%) translateY(0); }
+            to { transform: translateX(10%) translateY(-5%); }
+        }
+
         .invitation-container {
-            background: rgba(255, 0, 0, 0.1);
+            background: rgba(0, 0, 255, 0.1);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3),
-                        inset 0 5px 10px rgba(255, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 255, 0.3),
+                        inset 0 5px 10px rgba(0, 0, 255, 0.2);
             backdrop-filter: blur(10px);
             width: 400px;
-            border: 1px solid rgba(255, 0, 0, 0.5);
+            border: 1px solid rgba(0, 0, 255, 0.5);
             transform: perspective(1000px) rotateX(8deg);
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             z-index: 10;
@@ -55,31 +67,17 @@
 
         .invitation-container:hover, .invitation-container:active {
             transform: perspective(1000px) rotateX(0deg);
-            box-shadow: 0 10px 40px rgba(255, 0, 0, 0.6);
-        }
-
-        .cursor-trail {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: radial-gradient(circle, rgba(255, 0, 0, 0.8) 30%, rgba(255, 0, 0, 0) 80%);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: fadeOut 0.6s linear forwards;
-        }
-
-        @keyframes fadeOut {
-            0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(2); }
+            box-shadow: 0 10px 40px rgba(0, 0, 255, 0.6);
         }
     </style>
 </head>
 <body>
     <div class="fog"></div>
-    <canvas id="particleCanvas"></canvas>
+    <div class="smoke"></div>
+    <canvas id="starCanvas"></canvas>
 
     <div class="invitation-container">
-        <h2 style="color: #ff0000;">Farewell Invitation</h2>
+        <h2 style="color: #0000ff;">Farewell Invitation</h2>
         <p>We invite you to join us in celebrating the farewell of our beloved seniors!</p>
         <p><strong>Date:</strong> 19 APRIL 2025 </p>
         <p><strong>Time:</strong> --yet to release-- </p>
@@ -89,11 +87,12 @@
     </div>
 
     <script>
-        const canvas = document.getElementById('particleCanvas');
+        const canvas = document.getElementById('starCanvas');
         const ctx = canvas.getContext('2d');
-        let particles = [];
-        let numParticles = 100;
-        
+        let stars = [];
+        let numStars = 80;
+        let mouseTrail = [];
+
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -101,65 +100,71 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        class Particle {
+        class Star {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = (Math.random() - 0.5) * 2;
-                this.speedY = (Math.random() - 0.5) * 2;
+                this.size = Math.random() * 6 + 3;
+                this.opacity = Math.random();
+                this.speedX = (Math.random() - 0.5) * 5.4;
+                this.speedY = (Math.random() - 0.5) * 5.4;
+                this.twinkleSpeed = Math.random() * 0.03 + 0.01;
             }
 
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                this.opacity += this.twinkleSpeed;
+                if (this.opacity > 1 || this.opacity < 0.2) {
+                    this.twinkleSpeed *= -1;
+                }
             }
 
             draw() {
-                ctx.fillStyle = 'rgba(255, 0, 0, 0.8)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.fillStyle = `rgba(173, 216, 230, ${this.opacity})`;
+                ctx.font = `${this.size * 2}px Arial`;
+                ctx.fillText('★', this.x, this.y);
             }
         }
 
-        function createParticles() {
-            for (let i = 0; i < numParticles; i++) {
-                particles.push(new Particle());
+        function createStars() {
+            for (let i = 0; i < numStars; i++) {
+                stars.push(new Star());
             }
         }
 
-        function animateParticles() {
+        function animateStars() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let particle of particles) {
-                particle.update();
-                particle.draw();
+            for (let star of stars) {
+                star.update();
+                star.draw();
             }
-            requestAnimationFrame(animateParticles);
+            for (let i = 0; i < mouseTrail.length; i++) {
+                let trail = mouseTrail[i];
+                ctx.fillStyle = `rgba(173, 216, 230, ${trail.opacity})`;
+                ctx.font = `16px Arial`;
+                ctx.fillText('★', trail.x, trail.y);
+                trail.opacity -= 0.05;
+                if (trail.opacity <= 0) {
+                    mouseTrail.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animateStars);
         }
 
-        createParticles();
-        animateParticles();
+        createStars();
+        animateStars();
 
-        document.addEventListener('mousemove', function(e) {
-            let trail = document.createElement('div');
-            trail.classList.add('cursor-trail');
-            trail.style.left = `${e.clientX}px`;
-            trail.style.top = `${e.clientY}px`;
-            document.body.appendChild(trail);
-            setTimeout(() => { trail.remove(); }, 600);
+        document.addEventListener('mousemove', (e) => {
+            mouseTrail.push({ x: e.clientX, y: e.clientY, opacity: 1 });
         });
 
-        document.addEventListener('touchmove', function(e) {
+        document.addEventListener('touchmove', (e) => {
             let touch = e.touches[0];
-            let trail = document.createElement('div');
-            trail.classList.add('cursor-trail');
-            trail.style.left = `${touch.clientX}px`;
-            trail.style.top = `${touch.clientY}px`;
-            document.body.appendChild(trail);
-            setTimeout(() => { trail.remove(); }, 600);
+            mouseTrail.push({ x: touch.clientX, y: touch.clientY, opacity: 1 });
         });
     </script>
 </body>
