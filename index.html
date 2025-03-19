@@ -140,6 +140,19 @@
     </style>
 </head>
 <body>
+	<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let video = document.getElementById("bgVideo");
+
+        // Check if the video is loaded
+        video.onloadeddata = function () {
+            setTimeout(() => {
+                window.location.href = "home.html"; // Redirect to home.html
+            }, 1000); // Adjust delay if needed
+        };
+    });
+</script>
+
     <script>
 	    // Create a video element to preload the background video
 	    let video = document.createElement("video");
