@@ -141,6 +141,16 @@
 </head>
 <body>
     <script>
+	    // Create a video element to preload the background video
+	    let video = document.createElement("video");
+	    video.src = "your-video-file.mp4";  // Replace with your actual video file path
+	    video.oncanplaythrough = function () {
+	        // Redirect to index.html once the video is fully loaded
+	        window.location.href = "index.html";
+	    };
+    </script>
+
+    <script>
         function createParticles() {
             for (let i = 0; i < 1000; i++) {
         	let particle = document.createElement("div");
