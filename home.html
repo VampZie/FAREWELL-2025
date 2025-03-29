@@ -29,6 +29,28 @@
             opacity: 0.6; /* Slightly dimmed */
             z-index: -2;
         }
+		.upper-center {
+		position: absolute;
+		top: 0.1%; /* Adjust for fine-tuning */
+		left: 50%;
+		transform: translateX(-50%);
+		width: auto;
+		max-width: 1000px; /* Adjust size as needed */
+		height: auto;
+		z-index: 15; /* Ensures it stays on top */
+	}
+
+		.bottom-center {
+			position: absolute;
+			bottom: 0.1%; /* Adjust for fine-tuning */
+			left: 50%;
+			transform: translateX(-50%);
+			width: auto;
+			max-width: 1000px; /* Adjust as needed */
+			height: auto;
+			z-index: 15; /* Ensures visibility over other elements */
+		}
+
 
         .center-gradient {
             position: absolute;
@@ -41,19 +63,25 @@
             pointer-events: none;
         }
 
-        .invitation-container {
-            background: rgba(184, 134, 11, 0.1);
-            padding: 60px;
-            border-radius: 35px;
-            box-shadow: 0 8px 25px rgba(184, 134, 11, 0.25),
-                        inset 0 4px 8px rgba(184, 134, 11, 0.15);
-            backdrop-filter: blur(10px);
-            width: 700px;
-            border: 1px solid rgba(184, 134, 11, 0.4);
-            transform: perspective(1000px) rotateX(8deg);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            z-index: 10;
-        }
+		.invitation-container {
+			background: rgba(184, 134, 11, 0.1);
+			padding: 60px;
+			border-radius: 35px;
+			box-shadow: 0 8px 25px rgba(184, 134, 11, 0.25),
+						inset 0 4px 8px rgba(184, 134, 11, 0.15);
+			backdrop-filter: blur(10px);
+			width: 700px;
+			border: 1px solid rgba(184, 134, 11, 0.4);
+			transform: perspective(1000px) rotateX(8deg);
+			transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+			z-index: 10;
+			
+			position: absolute;
+			top: 49%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
 
         canvas {
             position: absolute;
@@ -66,6 +94,8 @@
     </style>
 </head>
 <body>
+	<img src="https://vampzie.github.io/FAREWELL-2025/uppercenter.png" class="upper-center">
+	<img src="https://vampzie.github.io/FAREWELL-2025/lowercenter.png" class="bottom-center">
 
     <video id="bgVideo" autoplay loop muted>
         <source src="https://vampzie.github.io/FAREWELL-2025/fog.mp4" type="video/mp4">
@@ -76,7 +106,7 @@
     <div class="center-gradient"></div>
 
     <div class="invitation-container">
-        <h2 style="color: #CCAA00;"> Mehfil-e-Vidaai</h2>
+        <h2 style="color: #CCAA00;"><U>Mehfil-e-Vidaai</U></h2>
         <h3 style="color: #CCAA00;">A Night of Nostalgia, Roasts & Laughter!</h3>
         <h3> The Last Programming You’ll Actually Enjoy! </h3>
         <p>We invite you to join us in celebrating the farewell of our beloved seniors!</p>
