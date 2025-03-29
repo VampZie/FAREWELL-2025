@@ -42,6 +42,65 @@
             height: 100vh;
             pointer-events: none;
         }
+        document.addEventListener("DOMContentLoaded", function () {
+    const canvas = document.getElementById('bubbleCanvas');
+    const ctx = canvas.getContext('2d');
+    const colors = ['#900C3F', '#C70039', '#FF5733', '#FFC300', '#DAF7A6'];
+    let bubbles = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Bubble {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.radius = Math.random() * 6 + 3;
+            this.speedY = Math.random() * 1.5 + 0.5;
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        update() {
+            this.y -= this.speedY;
+            if (this.y < -this.radius) {
+                this.y = canvas.height + this.radius;
+                this.x = Math.random() * canvas.width;
+                this.color = colors[Math.floor(Math.random() * colors.length)]; // Update color on reset
+            }
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = this.color; // Ensure correct color is applied
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
+
+    function createBubbles() {
+        for (let i = 0; i < 50; i++) { // Number of bubbles
+            bubbles.push(new Bubble());
+        }
+    }
+
+    function animateBubbles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        bubbles.forEach(bubble => {
+            bubble.update();
+            bubble.draw();
+        });
+        requestAnimationFrame(animateBubbles);
+    }
+
+    createBubbles();
+    animateBubbles();
+});
+
     </style>
 </head>
 <body>
