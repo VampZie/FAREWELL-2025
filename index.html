@@ -36,7 +36,6 @@
         .particle {
             position: absolute;
             bottom: 0;
-            background-color: rgba(0, 255, 255, 0.8);
             border-radius: 50%;
             animation: floatParticles linear infinite;
         }
@@ -58,6 +57,7 @@
 <body>
     <script>
         function createParticles() {
+            const colors = ['#900C3F', '#C70039', '#FF5733', '#FFC300', '#DAF7A6'];
             for (let i = 0; i < 1000; i++) {
                 let particle = document.createElement("div");
                 particle.className = "particle";
@@ -67,6 +67,7 @@
                 let posX = Math.random() * window.innerWidth;
                 let duration = Math.random() * 3 + 2;
                 let delay = Math.random() * 5;
+                let color = colors[Math.floor(Math.random() * colors.length)];
 
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
@@ -74,6 +75,7 @@
                 particle.style.animationDuration = `${duration}s`;
                 particle.style.animationDelay = `${delay}s`;
                 particle.style.animationTimingFunction = "linear";
+                particle.style.backgroundColor = color;
             }
         }
         createParticles();
