@@ -236,6 +236,17 @@
 
         createStars();
         animateStars();
+		
+		function isMobileDevice() {
+        return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+		}
+
+		if (isMobileDevice()) {
+			document.documentElement.innerHTML = ""; // Clear the entire page
+			document.write("<h2 style='text-align:center; color: red; margin-top: 50px;'>🚫 Please use a computer device to access this invitation.</h2>");
+			document.write("<h3 style='text-align:center;'>Mobile & tablet access is restricted.</h3>");
+			document.close(); // Prevent further loading
+		}
     </script>
 </body>
 </html>
