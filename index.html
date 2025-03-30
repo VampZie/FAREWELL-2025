@@ -21,115 +21,163 @@
             height: 100vh;
             overflow: hidden;
             position: relative;
+			z-index: 1;
         }
         .loading-container {
-            position: relative;
-            width: 100vw;
-            max-width: 670px; /* Increased size */
-            height: 51vh; /* Increased size */
-            display: flex;
-            align-items: center;
-            justify-content: center;
+				position: relative;
+				width: 100vw;
+				max-width: 700px;
+				height: 45vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				z-index: 3; /* Ensure it's on top */
         }
         .loading-image {
-            width: 670px;  /* Increased width */
-            height: 51vh;  /* Increased height */
+			width: 700px;
+			height: 45vh;
+			border-radius: 25px;
+			box-shadow: 
+				0px 20px 50px rgba(0, 0, 0, 1),
+				0px 10px 80px rgba(0, 0, 0, 0.9),
+				0px 5px 15px rgba(0, 0, 0, 0.5);
+			position: relative;
+			z-index: 3; /* Most upper layer */
+
         }
+		
+		
+		.open-btn {
+			margin-top: 20px;
+			padding: 14px 30px;
+			font-size: 20px;
+			font-weight: bold;
+			color: white;
+			background: linear-gradient(135deg, #FF5733, #C70039);
+			border: none;
+			border-radius: 50px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			box-shadow: 0 5px 15px rgba(199, 0, 57, 0.4);
+		}
+
+.open-btn:hover {
+    background: linear-gradient(135deg, #FFC300, #FF5733);
+    box-shadow: 0 10px 20px rgba(255, 87, 51, 0.5);
+    transform: translateY(-3px);
+}
+
+
+        /* Firefly Particles */
         .particle {
             position: absolute;
             bottom: 0;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            animation: floatParticles linear infinite;
+            opacity: 0;
+            filter: blur(1px);
+			z-index:2;
+			pointer-events: none;
+			box-shadow: 0 0 20px rgba(252, 85, 85, 1.0), 0 0 20px rgba(252, 85, 85, 1.0);
+            animation: floatUp linear infinite, flicker alternate infinite, sparkle infinite;
         }
-        @keyframes floatParticles {
+		
+		.particle.black {
+			background-color: black;
+			box-shadow: 0 0 15px rgba(20, 20, 20, 1.0), 0 0 30px rgba(10, 10, 10, 1.0);
+
+        @keyframes floatUp {
             0% {
-                transform: translateY(100vh) scale(1);
-                opacity: 0.5;
+                transform: translateY(0) scale(0.7);
+                opacity: 0;
             }
             50% {
                 opacity: 1;
             }
             100% {
-                transform: translateY(-100vh) scale(0.5);
+                transform: translateY(-100vh) scale(1);
                 opacity: 0;
             }
         }
-        .open-btn {
-            margin-top: 20px;
-            padding: 14px 30px;
-            font-size: 20px;
-            font-weight: bold;
-            color: white;
-            background: linear-gradient(135deg, #FF5733, #C70039);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(199, 0, 57, 0.4);
-            position: relative;
-            overflow: hidden;
+
+        @keyframes flicker {
+            0%, 100% {
+                opacity: 0.2;
+                filter: blur(1px);
+            }
+            50% {
+                opacity: 1;
+                filter: blur(3px);
+            }
         }
 
-        /* Button Hover Effect */
-        .open-btn:hover {
-            background: linear-gradient(135deg, #FFC300, #FF5733);
-            box-shadow: 0 10px 20px rgba(255, 87, 51, 0.5);
-            transform: translateY(-3px);
-        }
-
-        /* Glow Effect */
-        .open-btn::before {
-            content: "";
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            width: 120%;
-            height: 120%;
-            background: radial-gradient(circle, rgba(255, 87, 51, 0.3) 10%, transparent 80%);
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        /* Glow appears when hovered */
-        .open-btn:hover::before {
-            opacity: 1;
+        @keyframes sparkle {
+            0% {
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+                transform: scale(1.2);
+            }
+            100% {
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+            }
         }
     </style>
 </head>
 <body>
-    <script>
-        function createParticles() {
-            const colors = ['#900C3F', '#C70039', '#FF5733', '#FFC300', '#DAF7A6'];
-            for (let i = 0; i < 1000; i++) {
-                let particle = document.createElement("div");
-                particle.className = "particle";
-                document.body.appendChild(particle);
 
-                let size = Math.random() * 4 + 5;
-                let posX = Math.random() * window.innerWidth;
-                let duration = Math.random() * 3 + 2;
-                let delay = Math.random() * 5;
-                let color = colors[Math.floor(Math.random() * colors.length)];
-
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${posX}px`;
-                particle.style.animationDuration = `${duration}s`;
-                particle.style.animationDelay = `${delay}s`;
-                particle.style.animationTimingFunction = "linear";
-                particle.style.backgroundColor = color;
-            }
-        }
-        createParticles();
-    </script>
-
-    <!-- Loading Image -->
     <div class="loading-container">
         <img src="https://vampzie.github.io/FAREWELL-2025/envpic.png" alt="Loading..." class="loading-image">
     </div>
+	
+	<button class="open-btn" onclick="window.location.href='home.html'">Open your letter</button>
 
-    <!-- Open Button -->
-    <button class="open-btn" onclick="window.location.href='home.html'">Open your letter</button>
+
+    <script>
+		function createParticles() {
+			const colors = ['#800000', '#000000']; // Maroon & Black
+			for (let i = 0; i < 250; i++) {
+				let particle = document.createElement("div");
+				particle.className = "particle";
+				document.body.appendChild(particle);
+
+				let size = Math.random() * 5 + 4; 
+				let posX = Math.random() * window.innerWidth;
+				let posY = Math.random() * window.innerHeight;
+				let duration = Math.random() * 5 + 3;
+				let delay = Math.random() * 3;
+				let color = colors[Math.floor(Math.random() * colors.length)];
+
+				particle.style.width = `${size}px`;
+				particle.style.height = `${size}px`;
+				particle.style.left = `${posX}px`;
+				particle.style.top = `${posY}px`;
+				particle.style.animationDuration = `${duration}s, ${Math.random() * 1.5 + 0.5}s, ${Math.random() * 1.2 + 0.3}s`;
+				particle.style.animationDelay = `${delay}s, ${Math.random()}s, ${Math.random()}s`;
+				particle.style.backgroundColor = color;
+				particle.style.opacity = Math.random() * 0.8 + 0.2;
+
+				let moveAnim = document.createElement("style");
+				let animName = `move${i}`;
+				moveAnim.innerHTML = `
+					@keyframes ${animName} {
+						0% { transform: translate(0, 0); }
+						25% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * -50}px); }
+						50% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * -100}px); }
+						75% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * -150}px); }
+						100% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * -200}px); }
+					}
+				`;
+				document.head.appendChild(moveAnim);
+				particle.style.animation = `${animName} ${duration}s linear infinite, flicker ${Math.random() * 1.5 + 0.5}s infinite alternate, sparkle ${Math.random() * 1.2 + 0.3}s infinite alternate`;
+			}
+		}
+
+		window.onload = createParticles;
+
+    </script>
 
 </body>
 </html>
