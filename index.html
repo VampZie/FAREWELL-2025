@@ -11,27 +11,29 @@
             box-sizing: border-box;
         }
         body {
-            background: #581845; /* Updated Background Color */
+            background-image: url('https://vampzie.github.io/FAREWELL-2025/ibg.png'); 
+            background-size: cover;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
             height: 100vh;
             overflow: hidden;
             position: relative;
         }
-        /* Loading Image */
         .loading-container {
             position: relative;
             width: 100vw;
-            max-width: 670px;
-            height: 53vh;
+            max-width: 670px; /* Increased size */
+            height: 51vh; /* Increased size */
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .loading-image {
-            max-width: 100%;
-            height: auto;
+            width: 670px;  /* Increased width */
+            height: 51vh;  /* Increased height */
         }
         .particle {
             position: absolute;
@@ -51,6 +53,46 @@
                 transform: translateY(-100vh) scale(0.5);
                 opacity: 0;
             }
+        }
+        .open-btn {
+            margin-top: 20px;
+            padding: 14px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #FF5733, #C70039);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(199, 0, 57, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Button Hover Effect */
+        .open-btn:hover {
+            background: linear-gradient(135deg, #FFC300, #FF5733);
+            box-shadow: 0 10px 20px rgba(255, 87, 51, 0.5);
+            transform: translateY(-3px);
+        }
+
+        /* Glow Effect */
+        .open-btn::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(255, 87, 51, 0.3) 10%, transparent 80%);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Glow appears when hovered */
+        .open-btn:hover::before {
+            opacity: 1;
         }
     </style>
 </head>
@@ -86,28 +128,8 @@
         <img src="https://vampzie.github.io/FAREWELL-2025/envpic.png" alt="Loading..." class="loading-image">
     </div>
 
-    <!-- Background Video (Hidden) -->
-    <video id="bgVideo" autoplay muted loop style="display: none;">
-        <source src="your-video.mp4" type="video/mp4">
-    </video>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let video = document.getElementById("bgVideo");
-
-            // Check if the video is loaded
-            video.onloadeddata = function () {
-                setTimeout(() => {
-                    window.location.href = "home.html"; // Redirect to home.html
-                }, 1000); // Adjust delay if needed
-            };
-
-            // Alternative: Force redirect after 5 seconds if the video takes too long
-            setTimeout(() => {
-                window.location.href = "home.html";
-            }, 5000);
-        });
-    </script>
+    <!-- Open Button -->
+    <button class="open-btn" onclick="window.location.href='home.html'">Open your letter</button>
 
 </body>
 </html>
