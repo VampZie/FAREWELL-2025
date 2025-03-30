@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading...</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             background-image: url('https://vampzie.github.io/FAREWELL-2025/ibg.png'); 
             background-size: cover;
@@ -21,52 +24,96 @@
             height: 100vh;
             overflow: hidden;
             position: relative;
-			z-index: 1;
         }
-        .loading-container {
-				position: relative;
-				width: 100vw;
-				max-width: 700px;
-				height: 45vh;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				z-index: 3; /* Ensure it's on top */
-        }
-        .loading-image {
-			width: 700px;
-			height: 45vh;
-			border-radius: 25px;
-			box-shadow: 
-				0px 20px 50px rgba(0, 0, 0, 1),
-				0px 10px 80px rgba(0, 0, 0, 0.9),
-				0px 5px 15px rgba(0, 0, 0, 0.5);
-			position: relative;
-			z-index: 3; /* Most upper layer */
 
+        .loading-container {
+            position: relative;
+            width: 700px;
+            height: 45vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
         }
-		
-		
-		.open-btn {
-			margin-top: 20px;
-			padding: 14px 30px;
-			font-size: 20px;
+
+        .loading-image {
+            width: 700px;
+            height: 45vh;
+            border-radius: 25px;
+            box-shadow: 
+                0px 20px 50px rgba(0, 0, 0, 1),
+                0px 10px 80px rgba(0, 0, 0, 0.9),
+                0px 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+		.overlay-text {
+			position: absolute;
+			top: -20%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-family: 'Great Vibes', cursive;
+			font-size: 70px;  /* Adjust as needed */
 			font-weight: bold;
-			color: white;
-			background: linear-gradient(135deg, #FF5733, #C70039);
-			border: none;
-			border-radius: 50px;
-			cursor: pointer;
-			transition: all 0.3s ease;
-			box-shadow: 0 5px 15px rgba(199, 0, 57, 0.4);
+			white-space: nowrap;
+
+			/* Maroon Text with Black Edges */
+			color: #410606;
+			text-shadow:
+				/* Black Edge */
+				-0.8px -1px 0 black,  
+				0.8px -1px 0 black,  
+				-0.8px 1px 0 black,  
+				0.8px 1px 0 black,
+
+				/* Outer Glow (Mix of Maroon & Black) */
+				0 0 15px rgba(128, 0, 0, 0.9),  /* Deep Maroon Glow */
+				0 0 30px rgba(64, 0, 0, 0.8),   /* Darker Maroon */
+				0 0 50px rgba(32, 0, 0, 0.7),   /* Faint Blackish Maroon */
+				0 0 80px rgba(0, 0, 0, 0.6);    /* Outer Black Glow */
 		}
 
-.open-btn:hover {
-    background: linear-gradient(135deg, #FFC300, #FF5733);
-    box-shadow: 0 10px 20px rgba(255, 87, 51, 0.5);
-    transform: translateY(-3px);
-}
 
+
+		@keyframes neonFlicker {
+			0% { text-shadow: 
+				0 0 15px rgba(255, 200, 200, 1),  
+				0 0 35px rgba(255, 180, 180, 1),  
+				0 0 60px rgba(255, 160, 160, 1),  
+				0 0 90px rgba(255, 140, 140, 1),  
+				0 0 130px rgba(255, 120, 120, 0.8),  
+				0 0 160px rgba(255, 100, 100, 0.6);
+			}
+			100% { text-shadow: 
+				0 0 10px rgba(255, 220, 220, 1),  
+				0 0 30px rgba(255, 200, 200, 1),  
+				0 0 50px rgba(255, 180, 180, 1),  
+				0 0 70px rgba(255, 160, 160, 1),  
+				0 0 100px rgba(255, 140, 140, 0.8),  
+				0 0 130px rgba(255, 120, 120, 0.6);
+			}
+		}
+
+
+
+        .open-btn {
+            margin-top: 20px;
+            padding: 14px 35px;
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #FF5733, #C70039);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(199, 0, 57, 0.4);
+        }
+
+        .open-btn:hover {
+            background: linear-gradient(135deg, #FFC300, #FF5733);
+            box-shadow: 0 10px 20px rgba(255, 87, 51, 0.5);
+            transform: translateY(-3px);
+        }
 
         /* Firefly Particles */
         .particle {
@@ -77,15 +124,16 @@
             border-radius: 50%;
             opacity: 0;
             filter: blur(1px);
-			z-index:2;
-			pointer-events: none;
-			box-shadow: 0 0 20px rgba(252, 85, 85, 1.0), 0 0 20px rgba(252, 85, 85, 1.0);
+            z-index: 2;
+            pointer-events: none;
+            box-shadow: 0 0 20px rgba(252, 85, 85, 1.0), 0 0 20px rgba(252, 85, 85, 1.0);
             animation: floatUp linear infinite, flicker alternate infinite, sparkle infinite;
         }
-		
-		.particle.black {
-			background-color: black;
-			box-shadow: 0 0 15px rgba(20, 20, 20, 1.0), 0 0 30px rgba(10, 10, 10, 1.0);
+
+        .particle.black {
+            background-color: black;
+            box-shadow: 0 0 15px rgba(20, 20, 20, 1.0), 0 0 30px rgba(10, 10, 10, 1.0);
+        }
 
         @keyframes floatUp {
             0% {
@@ -124,16 +172,18 @@
                 box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
             }
         }
+
     </style>
 </head>
 <body>
-
+    
     <div class="loading-container">
         <img src="https://vampzie.github.io/FAREWELL-2025/envpic.png" alt="Loading..." class="loading-image">
+        <div class="overlay-text"><U>Mehfil-e-Vidaai</U></div>
     </div>
-	
-	<button class="open-btn" onclick="window.location.href='home.html'">Open your letter</button>
 
+
+	<button class="open-btn" onclick="window.location.href='home.html'">Open your letter</button>
 
     <script>
 		function createParticles() {
@@ -143,10 +193,10 @@
 				particle.className = "particle";
 				document.body.appendChild(particle);
 
-				let size = Math.random() * 5 + 4; 
+				let size = Math.random() * 5 + 4;
 				let posX = Math.random() * window.innerWidth;
 				let posY = Math.random() * window.innerHeight;
-				let duration = Math.random() * 5 + 3;
+				let duration = (Math.random() * 5 + 3) * 2; // Doubled for slower motion
 				let delay = Math.random() * 3;
 				let color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -154,7 +204,7 @@
 				particle.style.height = `${size}px`;
 				particle.style.left = `${posX}px`;
 				particle.style.top = `${posY}px`;
-				particle.style.animationDuration = `${duration}s, ${Math.random() * 1.5 + 0.5}s, ${Math.random() * 1.2 + 0.3}s`;
+				particle.style.animationDuration = `${duration}s, ${(Math.random() * 1.5 + 0.5) * 2}s, ${(Math.random() * 1.2 + 0.3) * 2}s`; // Doubled duration
 				particle.style.animationDelay = `${delay}s, ${Math.random()}s, ${Math.random()}s`;
 				particle.style.backgroundColor = color;
 				particle.style.opacity = Math.random() * 0.8 + 0.2;
@@ -164,19 +214,17 @@
 				moveAnim.innerHTML = `
 					@keyframes ${animName} {
 						0% { transform: translate(0, 0); }
-						25% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * -50}px); }
-						50% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * -100}px); }
-						75% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * -150}px); }
-						100% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * -200}px); }
+						25% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * -25}px); } 
+						50% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * -50}px); }  
+						75% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * -75}px); }  
+						100% { transform: translate(${Math.random() * 40 - 20}px, ${Math.random() * -100}px); }  
 					}
 				`;
 				document.head.appendChild(moveAnim);
 				particle.style.animation = `${animName} ${duration}s linear infinite, flicker ${Math.random() * 1.5 + 0.5}s infinite alternate, sparkle ${Math.random() * 1.2 + 0.3}s infinite alternate`;
 			}
 		}
-
-		window.onload = createParticles;
-
+        window.onload = createParticles;
     </script>
 
 </body>
