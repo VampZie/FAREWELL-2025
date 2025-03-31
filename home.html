@@ -137,7 +137,7 @@
 			top: 50%;
 			transform: translateY(-50%);
 			width: 25%;
-			max-height: none;
+			max-height: 80vh;
 			text-align: center;
 			font-size: 18px;
 			font-style: italic;
@@ -151,7 +151,6 @@
 						inset 0 3px 6px rgba(184, 134, 11, 0.12);
 			backdrop-filter: blur(8px);
 			overflow-y: auto;
-			white-space: pre-wrap;
 			transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 		}
 		
@@ -310,15 +309,20 @@
 			fetch("https://vampzie.github.io/FAREWELL-2025/database.json")
 				.then(response => response.json())
 				.then(data => {
-					const name = localStorage.getItem("loggedInName")?.trim();
-					const dob = localStorage.getItem("loggedInDOB")?.trim();
+					let name = localStorage.getItem("loggedInName")?.trim();
+					let dob = localStorage.getItem("loggedInDOB")?.trim();
 
 					if (!name || !dob) {
 						document.getElementById("poemContainer").innerHTML = "<p style='color: red;'>Error: Please log in again.</p>";
 						return;
 					}
 
-					const senior = data.seniors.find(s => s.name.trim().toLowerCase() === name.toLowerCase() && s.dob.trim() === dob);
+					console.log("Logged-in User:", name, "DOB:", dob); // Debugging line
+
+					const senior = data.seniors.find(s => 
+						s.name.trim().toLowerCase() === name.toLowerCase() && 
+						s.dob.trim() === dob
+					);
 
 					if (senior && senior.poem) {
 						document.getElementById("poemContainer").innerHTML = senior.poem.replace(/\n/g, "<br>");
@@ -331,42 +335,42 @@
 					document.getElementById("poemContainer").innerHTML = "<p style='color: red;'>Failed to load poem. Try again later.</p>";
 				});
 		});
+
 		
 	
 	
 	
-		document.addEventListener("DOMContentLoaded", function() {
-		    fetch("https://vampzie.github.io/FAREWELL-2025/database.json")
-		        .then(response => response.json())
-		        .then(data => {
-		            const name = localStorage.getItem("loggedInName")?.trim();
-		            const dob = localStorage.getItem("loggedInDOB")?.trim();
-		
-		            console.log("Logged-in User:", name, "DOB:", dob); // Debugging
-		
-		            if (!name || !dob) {
-		                document.getElementById("poemContainer").innerHTML = "<p style='color: red;'>Error: Please log in again.</p>";
-		                return;
-		            }
-		
-		            // Find the senior whose name and DOB match exactly
-		            const senior = data.seniors.find(s => 
-		                s.name.trim().toLowerCase() === name.toLowerCase() &&
-		                s.dob.trim() === dob
-		            );
-		
-		            console.log("Matched Senior:", senior); // Debugging
-		
-		            if (senior && senior.poem) {
-		                document.getElementById("poemContainer").innerHTML = senior.poem.replace(/\n/g, "<br>");
-		            } else {
-		                document.getElementById("poemContainer").innerHTML = "<p style='color: red;'>No poem found for your details.</p>";
-		            }
-		        })
-		        .catch(error => {
-		            console.error("Error fetching poem:", error);
-		            document.getElementById("poemContainer").innerHTML = "<p style='color: red;'>Failed to load poem. Try again later.</p>";
-		        });
+		document.addEventListener("DOMContentLoaded", function () {
+			fetch("https://vampzie.github.io/FAREWELL-2025/database.json")
+				.then(response => {
+					if (!response.ok) {
+						throw new Error("Failed to load database.json");
+					}
+					return response.json();
+				})
+				.then(data => {
+					let poemContainer = document.getElementById("poemContainer");
+
+					let name = localStorage.getItem("loggedInName")?.trim();
+					let dob = localStorage.getItem("loggedInDOB")?.trim();
+
+					if (!name || !dob) {
+						poemContainer.innerHTML = "<p style='color: red;'>Error: Please log in again.</p>";
+						return;
+					}
+
+					let senior = data.seniors.find(s => s.name.trim().toLowerCase() === name.toLowerCase() && s.dob.trim() === dob);
+
+					if (senior) {
+						poemContainer.innerHTML = `<h2>${senior.name}</h2><p>${senior.poem.replace(/\n/g, "<br>")}</p>`;
+					} else {
+						poemContainer.innerHTML = "<p style='color: red;'>No poem found for your details.</p>";
+					}
+				})
+				.catch(error => {
+					console.error("Error loading database.json:", error);
+					document.getElementById("poemContainer").innerHTML = "<p style='color: red;'>Failed to load poem. Try again later.</p>";
+				});
 		});
 
 
