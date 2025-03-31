@@ -183,6 +183,46 @@
 		.text-container {
 			flex-grow: 1;
 		}
+		
+		
+		#profile-container {
+			width: 350px;
+			height: auto; /* Adjust height dynamically */
+			border-radius: 25px; /* Slightly rounded container */
+			overflow: hidden;
+			border: 3px solid white; /* Optional border */
+			display: flex;
+			flex-direction: column; /* Align image and text vertically */
+			justify-content: center;
+			align-items: center;
+			position: absolute; /* Adjust as needed */
+			left: 200px; /* Move to left */
+			top: 100px; /* Adjust vertical position */
+			background: linear-gradient(135deg, rgba(184, 134, 11, 0.1), rgba(204, 170, 0, 0.12));
+			padding: 20px;
+			border-radius: 15px;
+			box-shadow: 0 6px 20px rgba(184, 134, 11, 0.2), 
+						inset 0 3px 6px rgba(184, 134, 11, 0.12);
+			backdrop-filter: blur(8px);
+		}
+
+		#profile-picture {
+			width: 100%;
+			height: 350px; /* Fixed height for uniformity */
+			object-fit: cover;
+			border-radius: 50%; /* Makes it a perfect circle */
+			border: 3px solid white; /* Optional border */
+		}
+
+		#profile-name {
+			margin-top: 10px;
+			font-size: 22px;
+			font-weight: bold;
+			color: #333;
+			text-align: center;
+		}
+
+
 
 
     </style>
@@ -208,9 +248,11 @@
 	
 	
 	<div id="seniors"></div>
+ 
+	<div id="profile-container">
+		<img id="profile-picture" src="" alt="Profile Picture">
+	</div>
 
-	
-	
 	
 
     <div class="invitation-container">
@@ -372,6 +414,54 @@
 					document.getElementById("poemContainer").innerHTML = "<p style='color: red;'>Failed to load poem. Try again later.</p>";
 				});
 		});
+		
+		
+		
+		
+		
+		document.addEventListener("DOMContentLoaded", function () {
+			fetch("https://vampzie.github.io/FAREWELL-2025/database.json")
+				.then(response => response.json())
+				.then(data => {
+					const name = localStorage.getItem("loggedInName")?.trim();
+					const dob = localStorage.getItem("loggedInDOB")?.trim();
+
+					if (!name || !dob) {
+						console.error("Error: No login details found in localStorage.");
+						return;
+					}
+
+					const senior = data.seniors.find(s => s.name.trim().toLowerCase() === name.toLowerCase() && s.dob.trim() === dob);
+
+					if (senior && senior.image) {
+						document.getElementById("profile-picture").src = senior.image; 
+					} else {
+						console.warn("No profile picture found for this user.");
+					}
+				})
+				.catch(error => console.error("Error fetching profile picture:", error));
+		});
+		
+		
+    document.addEventListener("DOMContentLoaded", function () {
+        const name = localStorage.getItem("loggedInName")?.trim();
+        const dob = localStorage.getItem("loggedInDOB")?.trim();
+
+        fetch("https://vampzie.github.io/FAREWELL-2025/database.json")
+            .then(response => response.json())
+            .then(data => {
+                const senior = data.seniors.find(s => s.name.trim().toLowerCase() === name.toLowerCase() && s.dob.trim() === dob);
+                if (senior) {
+                    document.getElementById("profile-picture").src = senior.image;
+                    document.getElementById("profile-name").textContent = senior.name;
+                } else {
+                    document.getElementById("profile-name").textContent = "Unknown User";
+                }
+            })
+            .catch(error => console.error("Error loading profile:", error));
+    });
+
+
 
 
     </script>
