@@ -1,3 +1,7 @@
 {
-    "seniors": ["tester"]
+    "seniors": [
+        { "name": "Sourabh Kumawat", "dob": "2002-20-09" },
+        { "name": "Sk Arif", "dob": "2002-07-14" },
+        { "name": "Suthar shravankumar tejara", "dob": "1999-08-08" }
+    ]
 }
