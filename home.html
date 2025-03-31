@@ -112,7 +112,7 @@
 			box-shadow: 0 8px 25px rgba(184, 134, 11, 0.25),
 						inset 0 4px 8px rgba(184, 134, 11, 0.15);
 			backdrop-filter: blur(10px);
-			width: 700px;
+			width: 600px;
 			border: 1px solid rgba(184, 134, 11, 0.4);
 			transform: perspective(1000px) rotateX(8deg);
 			transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -124,7 +124,6 @@
 			transform: translate(-50%, -50%);
 		}
 
-
         canvas {
             position: absolute;
             top: 0;
@@ -133,6 +132,24 @@
             height: 100%;
             z-index: -1;
         }
+		
+		.poem-container {
+			position: absolute;
+			right: 5%;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 40%;
+			text-align: right;
+			font-size: 18px;
+			font-style: italic;
+			line-height: 1.6;
+			color: #444;
+			background: rgba(255, 255, 255, 0.8);
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+		}
+
     </style>
 </head>
 <body>
@@ -164,6 +181,11 @@
         <p>Kindly confirm your presence.</p>
         <button onclick="alert('Thank you for confirming!')" class="btn btn-warning w-100" style="background-color: #CCAA00; border-color: #AA8800;">Confirm Attendance</button>
     </div>
+	
+	<div class="poem-container">
+		<p id="poemContainer"></p>
+	</div>
+
 
     <script>
         const canvas = document.getElementById('starCanvas');
@@ -237,17 +259,44 @@
         createStars();
         animateStars();
 		
-		window.onload = function () {
-    function isMobileDevice() {
-        return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    }
+		function isMobileDevice() {
+			return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+		}
 
-    if (isMobileDevice()) {
-        document.body.innerHTML = "<h2 style='text-align:center; color: red; margin-top: 50px;'>🚫 Please use a computer device to access this invitation.</h2><h3 style='text-align:center;'>Mobile & tablet access is restricted.</h3>";
-        document.body.style.backgroundColor = "white";
-    }
-};
+		if (isMobileDevice()) {
+			document.body.innerHTML = `
+				<h2 style='text-align:center; color: red; margin-top: 50px;'>🚫 Please use a computer to access this invitation.</h2>
+				<h3 style='text-align:center;'>Mobile & tablet access is restricted.</h3>
+			`;
+		} else {
+			fetch("database.json")
+				.then(response => response.json())
+				.then(data => {
+					const name = sessionStorage.getItem("loggedInName"); // Retrieve stored name
+					const dob = sessionStorage.getItem("loggedInDOB"); // Retrieve stored DOB
 
+					if (!name || !dob) {
+						console.error("User not logged in.");
+						return;
+					}
+
+					// Ensure `seniors` exists in database.json
+					if (!data.seniors || !Array.isArray(data.seniors)) {
+						console.error("Invalid database format: Missing 'seniors' array.");
+						return;
+					}
+
+					// Find the senior's data
+					const senior = data.seniors.find(s => s.name === name && s.dob === dob);
+					
+					if (senior && senior.poem) {
+						document.getElementById("poemContainer").innerHTML = senior.poem.replace(/\n/g, "<br>");
+					} else {
+						document.getElementById("poemContainer").innerHTML = "<p>Poem not found.</p>";
+					}
+				})
+				.catch(error => console.error("Error fetching poem:", error));
+		}
     </script>
 </body>
 </html>
