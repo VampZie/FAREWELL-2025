@@ -335,46 +335,40 @@
 	
 	
 	
-		document.addEventListener("DOMContentLoaded", function () {
-			fetch('https://vampzie.github.io/FAREWELL-2025/database.json')
-				.then(response => {
-					if (!response.ok) {
-						throw new Error("Failed to load database.json");
-					}
-					return response.json();
-				})
-				.then(data => {
-					let seniorsContainer = document.getElementById("seniors");
-					if (!seniorsContainer) {
-						console.error("Error: seniors container not found");
-						return;
-					}
-					
-					if (!Array.isArray(data.seniors)) {
-						console.error("Error: Invalid data format in database.json");
-						return;
-					}
-					
-					data.seniors.forEach(senior => {
-						let seniorDiv = document.createElement("div");
-						seniorDiv.classList.add("senior-profile");
-
-						let imagesContainer = document.createElement("div");
-						imagesContainer.classList.add("picture-container");
-
-						if (Array.isArray(senior.images) && senior.images.length > 0) {
-							let imgUrl = senior.images[0]; 
-							if (typeof imgUrl === "string" && imgUrl.trim() !== "") {
-								let img = document.createElement("img");
-								img.src = imgUrl;
-								img.alt = `${senior.name || "Senior"} image`;
-								imagesContainer.appendChild(img);
-							}
-						}
-					});
-				})
-				.catch(error => console.error("Error loading database.json:", error));
+		document.addEventListener("DOMContentLoaded", function() {
+		    fetch("https://vampzie.github.io/FAREWELL-2025/database.json")
+		        .then(response => response.json())
+		        .then(data => {
+		            const name = localStorage.getItem("loggedInName")?.trim();
+		            const dob = localStorage.getItem("loggedInDOB")?.trim();
+		
+		            console.log("Logged-in User:", name, "DOB:", dob); // Debugging
+		
+		            if (!name || !dob) {
+		                document.getElementById("poemContainer").innerHTML = "<p style='color: red;'>Error: Please log in again.</p>";
+		                return;
+		            }
+		
+		            // Find the senior whose name and DOB match exactly
+		            const senior = data.seniors.find(s => 
+		                s.name.trim().toLowerCase() === name.toLowerCase() &&
+		                s.dob.trim() === dob
+		            );
+		
+		            console.log("Matched Senior:", senior); // Debugging
+		
+		            if (senior && senior.poem) {
+		                document.getElementById("poemContainer").innerHTML = senior.poem.replace(/\n/g, "<br>");
+		            } else {
+		                document.getElementById("poemContainer").innerHTML = "<p style='color: red;'>No poem found for your details.</p>";
+		            }
+		        })
+		        .catch(error => {
+		            console.error("Error fetching poem:", error);
+		            document.getElementById("poemContainer").innerHTML = "<p style='color: red;'>Failed to load poem. Try again later.</p>";
+		        });
 		});
+
 
     </script>
 </body>
