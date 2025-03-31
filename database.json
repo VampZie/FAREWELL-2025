@@ -1,8 +1,35 @@
 {
     "seniors": [
-        { "name": "Sourabh Kumawat", "dob": "20-09-2002" },
-        { "name": "Sk Arif", "dob": "14-07-2002" },
-        { "name": "Suthar shravankumar tejara", "dob": "08-08-1999" },
-        { "name": "tester", "dob": "01-01-0001" }
+        {
+            "name": "Sourabh Kumawat",
+            "dob": "20-09-2002",
+            "images": [
+                "https://vampzie.github.io/FAREWELL-2025/images/Sourabh Kumawat p1.jpg",
+                "https://vampzie.github.io/FAREWELL-2025/images/Sourabh Kumawat p2.jpg",
+                "https://vampzie.github.io/FAREWELL-2025/images/Sourabh Kumawat p3.jpg",
+                "https://vampzie.github.io/FAREWELL-2025/images/Sourabh Kumawat p4.jpg"
+            ],
+            "poem": "In the quiet lab, where dreams would weave, Two hearts met, on a golden eve. Through pages turned and data traced, Love found light in that sacred space. Her head would rest upon my chest, A fleeting touch, a moment blessed. Fingers brushed, a whispered sigh, Time stood still as love passed by. Yet when the echoes of footsteps came, She’d pull away, her cheeks aflame. A stolen glance, a secret smile, Love unspoken, yet known all the while. Though fate may drift like waves to shore, Some memories last forevermore. In that last semester’s fleeting hue, She was my love—soft, yet true."
+        },
+        {
+            "name": "Sk Arif",
+            "dob": "14-07-2002",
+            "images": [
+                "https://your-image-link1.com",
+                "https://your-image-link2.com",
+                "https://your-image-link3.com"
+            ],
+            "poem": "Under moonlit skies, we’d dream,\nThrough library nights, chasing a theme.\nFests and cheers, the bonds grew tight,\nCollege days, pure and bright."
+        },
+        {
+            "name": "Suthar Shravankumar Tejara",
+            "dob": "08-08-1999",
+            "images": [
+                "https://your-image-link1.com",
+                "https://your-image-link2.com",
+                "https://your-image-link3.com"
+            ],
+            "poem": "From first hello to final wave,\nLessons learned, memories saved.\nA journey filled with highs and lows,\nCollege life—the heart still glows."
+        }
     ]
 }
