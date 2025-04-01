@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+				document.body.innerHTML = "<h2 style='text-align:center;margin-top:20%;'>Access Denied: Please use a laptop or desktop.</h2>";
+			}
+		});
+	</script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading...</title>
