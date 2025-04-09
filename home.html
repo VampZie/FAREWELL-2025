@@ -142,7 +142,7 @@
 			font-size: 18px;
 			font-style: italic;
 			line-height: 1.8;
-			color: #333;
+			color: white;
 			background: linear-gradient(135deg, rgba(184, 134, 11, 0.08), rgba(204, 170, 0, 0.1));
 			padding: 40px;
 			border-radius: 25px;
@@ -187,17 +187,17 @@
 		
 		#profile-container {
 			width: 350px;
-			height: 50%; /* Adjust height dynamically */
+			height: 45%; /* Adjust height dynamically */
 			border-radius: 25px; /* Slightly rounded container */
 			overflow: hidden;
-			border: 0px solid white; /* Optional border */
+			border: 1px solid rgba(184, 134, 11, 0.3); /* Optional border */
 			display: flex;
 			flex-direction: column; /* Align image and text vertically */
 			justify-content: top;
 			align-items: center;
 			position: absolute; /* Adjust as needed */
 			left: 200px; /* Move to left */
-			top: 200px; /* Adjust vertical position */
+			top: 250px; /* Adjust vertical position */
 			background: linear-gradient(135deg, rgba(184, 134, 11, 0.1), rgba(204, 170, 0, 0.12));
 			padding: 20px;
 			border-radius: 15px;
@@ -217,8 +217,7 @@
 		#profile-name {
 			margin-top: 10px;
 			font-size: 22px;
-			font-weight: bold;
-			color: #b48c5e; /* Softer golden shade */
+			color: white; 
 			text-align: center;
 		}
 
@@ -251,6 +250,7 @@
  
 	<div id="profile-container">
 		<img id="profile-picture" src="" alt="Profile Picture">
+		<div id="profile-name"></div>
 	</div>
 
 	
@@ -261,7 +261,7 @@
         <h3> The Last Programming You’ll Actually Enjoy! </h3>
         <p>We invite you to join us in celebrating the farewell of our beloved seniors!</p>
         <p><strong>Date:</strong> 19 APRIL 2025 </p>
-        <p><strong>Time:</strong> 3pm - 10pm </p>
+        <p><strong>Time:</strong> 4:30 pm - 1:00 pm </p>
         <p><strong>Venue:</strong> ACTIVITY HALL, ACADEMIC BUILDING </p>
         <p>Kindly confirm your presence.</p>
         <button onclick="alert('Thank you for confirming!')" class="btn btn-warning w-100" style="background-color: #CCAA00; border-color: #AA8800;">Confirm Attendance</button>
@@ -346,7 +346,6 @@
 		
 		
 		
-		
 		document.addEventListener("DOMContentLoaded", function() {
 			fetch("https://vampzie.github.io/FAREWELL-2025/database.json")
 				.then(response => response.json())
@@ -404,7 +403,7 @@
 					let senior = data.seniors.find(s => s.name.trim().toLowerCase() === name.toLowerCase() && s.dob.trim() === dob);
 
 					if (senior) {
-						poemContainer.innerHTML = `<h2>${senior.name}</h2><p>${senior.poem.replace(/\n/g, "<br>")}</p>`;
+						poemContainer.innerHTML = `<h2 style="color: #fcdd00;"><U>Your favourite moment</U></h2><p>${senior.poem.replace(/\n/g, "<br>")}</p>`;
 					} else {
 						poemContainer.innerHTML = "<p style='color: red;'>No poem found for your details.</p>";
 					}
@@ -460,9 +459,26 @@
             })
             .catch(error => console.error("Error loading profile:", error));
     });
+	
+	
+	
 
+		document.addEventListener("DOMContentLoaded", function () {
+			const name = localStorage.getItem("loggedInName")?.trim();
+			const dob = localStorage.getItem("loggedInDOB")?.trim();
 
-
+			fetch("https://vampzie.github.io/FAREWELL-2025/database.json")
+				.then(response => response.json())
+				.then(data => {
+					const senior = data.seniors.find(s => s.name.trim().toLowerCase() === name.toLowerCase() && s.dob.trim() === dob);
+					if (senior) {
+						document.getElementById("profile-name").textContent = senior.name;
+					} else {
+						document.getElementById("profile-name").textContent = "Unknown User";
+					}
+				})
+				.catch(error => console.error("Error loading name:", error));
+		});
 
     </script>
 </body>
