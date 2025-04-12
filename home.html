@@ -480,6 +480,28 @@
 				.catch(error => console.error("Error loading name:", error));
 		});
 
+
+		function confirmPresence() {
+		  const userName = sessionStorage.getItem("username");
+		  if (!userName) {
+		    alert("Please login first.");
+		    return;
+		  }
+		
+		  fetch('https://script.google.com/u/0/home/projects/1lvEwezGDrRqOzdPgxNy6HUIzs8__t43dK6JbsMSnwkgSMMxD_pHJfPzY/edit', {
+		    method: 'POST',
+		    body: JSON.stringify({ name: userName })
+		  })
+		  .then(res => {
+		    if (res.ok) alert("Confirmation recorded ✅");
+		    else alert("Failed ❌");
+		  })
+		  .catch(err => {
+		    console.error(err);
+		    alert("Error occurred");
+		  });
+		}
+
     </script>
 </body>
 </html>
